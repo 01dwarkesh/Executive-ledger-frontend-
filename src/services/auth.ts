@@ -21,8 +21,11 @@ export class AuthService {
       const data = await api.get<User>('/auth/me')
       localStorage.setItem('user', JSON.stringify(data))
       return data
-    } catch {
-      this.logout()
+    } catch (err: any) {
+      // Only logout on 401 (invalid token), not on network errors
+      if (err?.status === 401) {
+        this.logout()
+      }
       return null
     }
   }

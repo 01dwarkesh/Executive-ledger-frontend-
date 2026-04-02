@@ -46,9 +46,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const currentUser = await authService.getCurrentUser()
       setUser(currentUser)
+      if (currentUser) setIsAuthenticated(true)
     } catch {
-      setUser(null)
-      setIsAuthenticated(false)
+      // Only clear auth if no token exists
+      if (!authService.isAuthenticated()) {
+        setUser(null)
+        setIsAuthenticated(false)
+      }
     } finally {
       setIsLoading(false)
     }

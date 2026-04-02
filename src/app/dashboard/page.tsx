@@ -47,6 +47,9 @@ export default function DashboardPage() {
     }
   }
 
+  const rowClickHandler = (quoteId: any) => {
+    router.push(`/quotes/${quoteId}`)
+  }
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar />
@@ -119,7 +122,7 @@ export default function DashboardPage() {
                     {recentQuotes.length === 0 && !loading ? (
                       <tr><td colSpan={4} className="px-6 py-8 text-center text-gray-500">No quotes found</td></tr>
                     ) : recentQuotes.map((quote) => (
-                      <tr key={quote.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => router.push(`/quotes/${quote.id}`)}>
+                      <tr key={quote.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => rowClickHandler(quote.id)}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">{quote.client?.company_name || '—'}</div>
                           <div className="text-sm text-gray-500">{quote.client?.contact_name}</div>
