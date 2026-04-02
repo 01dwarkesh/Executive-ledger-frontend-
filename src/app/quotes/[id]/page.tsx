@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import Header from '@/components/Header'
 import { quotesService } from '@/services/quotes'
@@ -38,8 +38,9 @@ const EMPTY_ITEM: QuoteItemCreate = {
 const fmt = (val: string | number, currency: string) =>
   Number(val).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
-export default function QuoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = React.use(params)
+export default function QuoteDetailPage() {
+  const params = useParams()
+  const id = params.id as string
   const router = useRouter()
   const [quote, setQuote] = useState<Quote | null>(null)
   const [summary, setSummary] = useState<QuoteItemSummary | null>(null)
