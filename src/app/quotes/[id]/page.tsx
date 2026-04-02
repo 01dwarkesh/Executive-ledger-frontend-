@@ -58,7 +58,10 @@ export default function QuoteDetailPage({ params }: { params: Promise<{ id: stri
   const [linkCopied, setLinkCopied] = useState(false)
 
   useEffect(() => {
-    if (!localStorage.getItem('authToken')) { router.push('/login'); return }
+    const token = localStorage.getItem('authToken')
+    console.log('[QuoteDetail] id:', id, '| authToken:', token ? 'EXISTS' : 'MISSING')
+    console.log('[QuoteDetail] API_URL:', process.env.NEXT_PUBLIC_API_URL)
+    if (!token) { router.push('/login'); return }
     fetchQuote()
     productsService.getProducts().then(setProducts).catch(() => {})
   }, [id])
@@ -67,14 +70,18 @@ export default function QuoteDetailPage({ params }: { params: Promise<{ id: stri
     setLoading(true)
     setError(null)
     try {
+      console.log('[QuoteDetail] Fetching quote:', id)
       const [quoteData, summaryData] = await Promise.all([
         quotesService.getQuote(id),
         quotesService.getItemsSummary(id).catch(() => null),
       ])
+      console.log('[QuoteDetail] Quote loaded:', quoteData?.quote_number)
       setQuote(quoteData)
       setSummary(summaryData)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load quote')
+      const msg = err instanceof Error ? err.message : 'Failed to load quote'
+      console.error('[QuoteDetail] Error:', msg, err)
+      setError(msg)
     } finally {
       setLoading(false)
     }
