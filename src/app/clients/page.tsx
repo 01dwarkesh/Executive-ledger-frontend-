@@ -151,7 +151,7 @@ export default function ClientsPage() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={e => { if(e.target === e.currentTarget) { const setters = [setShowModal]; setters.forEach(s => { try { s(false) } catch{} }) } }}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={e => { if(e.target === e.currentTarget) setShowModal(false) }}>
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">{editClient ? 'Edit Client' : 'Add New Client'}</h2>
             <form onSubmit={handleSave} className="space-y-4">
