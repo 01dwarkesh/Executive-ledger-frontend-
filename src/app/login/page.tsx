@@ -1,33 +1,39 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { authService } from '@/services/auth'
-import { LoginRequest } from '@/types'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [slowWarning, setSlowWarning] = useState(false)
   const router = useRouter()
+
+  // Ping backend on page load to wake up Render free tier
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '')}/health`).catch(() => {})
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    
-    console.log('Submitting login form...')
-    
+    setError(null)
+    setSlowWarning(false)
+
+    const slowTimer = setTimeout(() => setSlowWarning(true), 5000)
+
     try {
-      console.log('Calling authService.login with:', { email, password: '***' })
-      const result = await authService.login({ email, password })
-      console.log('Login successful:', result)
+      await authService.login({ email, password })
       router.push('/dashboard')
-    } catch (error) {
-      console.error('Login failed:', error)
-      // You could show an error message here
-      alert(`Login failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed')
     } finally {
+      clearTimeout(slowTimer)
       setIsLoading(false)
+      setSlowWarning(false)
     }
   }
 
@@ -102,6 +108,16 @@ export default function LoginPage() {
           </div>
 
           <div>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded text-sm mb-4">
+                {error}
+              </div>
+            )}
+            {slowWarning && (
+              <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded text-sm mb-4">
+                Server is waking up, please wait a moment...
+              </div>
+            )}
             <button
               type="submit"
               disabled={isLoading}
