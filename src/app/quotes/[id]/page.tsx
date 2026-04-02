@@ -395,8 +395,8 @@ export default function QuoteDetailPage() {
 
       {/* ── Add Item Modal ── */}
       {showAddItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowAddItem(false)}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="px-6 py-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">Add Line Item</h2>
               <button onClick={() => setShowAddItem(false)} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
@@ -533,8 +533,8 @@ export default function QuoteDetailPage() {
 
       {/* ── Public Link Modal ── */}
       {showPublicLink && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowPublicLink(false)}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md" onClick={e => e.stopPropagation()}>
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900"><Link2 className="inline mr-2 h-5 w-5" suppressHydrationWarning /> Public Quote Link</h2>
               <button onClick={() => setShowPublicLink(false)} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
@@ -573,8 +573,8 @@ export default function QuoteDetailPage() {
 
       {/* ── Send Email Modal ── */}
       {showSendModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowSendModal(false)}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md" onClick={e => e.stopPropagation()}>
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900"><Mail className="inline mr-2 h-5 w-5" suppressHydrationWarning /> Send Quote to Client</h2>
               <button onClick={() => setShowSendModal(false)} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
