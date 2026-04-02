@@ -44,7 +44,7 @@ export class QuotesService {
 
   async downloadPDF(quoteId: string): Promise<Blob> {
     const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
-    const url = `/api/proxy/api/v1/quotes/${quoteId}/export-pdf`
+    const url = `${API_BASE_URL}/quotes/${quoteId}/export-pdf/`
     const response = await fetch(url, {
       headers: { ...(token && { Authorization: `Bearer ${token}` }) },
     })

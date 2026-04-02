@@ -3,22 +3,30 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
-import { User, Mail, Shield, Calendar, X } from 'lucide-react'
+import { Mail, Shield, Calendar, X, Pencil, KeyRound, Check } from 'lucide-react'
+import { authService } from '@/services/auth'
 
 export default function Header() {
-  const { user, logout } = useAuth()
+  const { user, logout, refreshUser } = useAuth()
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
+  const [editingName, setEditingName] = useState(false)
+  const [editingPassword, setEditingPassword] = useState(false)
+  const [newName, setNewName] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [successMsg, setSuccessMsg] = useState('')
   const modalRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => setMounted(true), [])
 
-  // Outside click se modal band karo
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         setShowProfile(false)
+        setEditingName(false)
+        setEditingPassword(false)
       }
     }
     if (showProfile) document.addEventListener('mousedown', handleOutsideClick)
@@ -35,6 +43,41 @@ export default function Header() {
     router.push('/login')
   }
 
+  const handleSaveName = async () => {
+    if (!newName.trim()) return
+    setSaving(true)
+    try {
+      await authService.updateProfile({ full_name: newName.trim() })
+      await refreshUser()
+      setEditingName(false)
+      setSuccessMsg('Name updated!')
+      setTimeout(() => setSuccessMsg(''), 2000)
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to update name')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleSavePassword = async () => {
+    if (!newPassword.trim() || newPassword.length < 6) {
+      alert('Password must be at least 6 characters')
+      return
+    }
+    setSaving(true)
+    try {
+      await authService.changePassword(newPassword)
+      setEditingPassword(false)
+      setNewPassword('')
+      setSuccessMsg('Password changed!')
+      setTimeout(() => setSuccessMsg(''), 2000)
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to change password')
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
     <div className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -44,7 +87,7 @@ export default function Header() {
           {mounted && user && (
             <>
               <button
-                onClick={() => setShowProfile(p => !p)}
+                onClick={() => { setShowProfile(p => !p); setEditingName(false); setEditingPassword(false) }}
                 className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
               >
                 <div className="text-right hidden sm:block">
@@ -80,29 +123,92 @@ export default function Header() {
                     </div>
                   </div>
 
-                  {/* Info */}
                   <div className="p-4 space-y-3">
+                    {successMsg && (
+                      <div className="flex items-center gap-2 text-green-600 text-sm bg-green-50 px-3 py-2 rounded-lg">
+                        <Check className="h-4 w-4" suppressHydrationWarning /> {successMsg}
+                      </div>
+                    )}
+
+                    {/* Email */}
                     <div className="flex items-center gap-3 text-sm text-gray-700">
                       <Mail className="h-4 w-4 text-gray-400 flex-shrink-0" suppressHydrationWarning />
                       <span className="truncate">{user.email}</span>
                     </div>
+
+                    {/* Role */}
                     <div className="flex items-center gap-3 text-sm text-gray-700">
                       <Shield className="h-4 w-4 text-gray-400 flex-shrink-0" suppressHydrationWarning />
-                      <span className="capitalize">{user.role === 'admin' ? 'Administrator' : 'Sales Representative'}</span>
+                      <span>{user.role === 'admin' ? 'Administrator' : 'Sales Representative'}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm text-gray-700">
-                      <User className="h-4 w-4 text-gray-400 flex-shrink-0" suppressHydrationWarning />
-                      <span>ID: {user.id?.slice(0, 8)}...</span>
-                    </div>
+
+                    {/* Join date */}
                     {user.created_at && (
                       <div className="flex items-center gap-3 text-sm text-gray-700">
                         <Calendar className="h-4 w-4 text-gray-400 flex-shrink-0" suppressHydrationWarning />
-                        <span>Joined {new Date(user.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                        <span>Joined {new Date(user.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long' })}</span>
                       </div>
                     )}
+
+                    <div className="border-t pt-3 space-y-2">
+                      {/* Edit Name */}
+                      {editingName ? (
+                        <div className="space-y-2">
+                          <input
+                            autoFocus
+                            className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
+                            placeholder="New name"
+                            value={newName}
+                            onChange={e => setNewName(e.target.value)}
+                            onKeyDown={e => e.key === 'Enter' && handleSaveName()}
+                          />
+                          <div className="flex gap-2">
+                            <button onClick={handleSaveName} disabled={saving} className="flex-1 py-1.5 bg-primary-600 text-white rounded-md text-xs font-medium">
+                              {saving ? 'Saving...' : 'Save'}
+                            </button>
+                            <button onClick={() => setEditingName(false)} className="flex-1 py-1.5 bg-gray-100 text-gray-700 rounded-md text-xs">Cancel</button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => { setEditingName(true); setEditingPassword(false); setNewName(user.full_name || '') }}
+                          className="w-full flex items-center gap-2 py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
+                        >
+                          <Pencil className="h-4 w-4 text-gray-400" suppressHydrationWarning /> Edit Name
+                        </button>
+                      )}
+
+                      {/* Change Password */}
+                      {editingPassword ? (
+                        <div className="space-y-2">
+                          <input
+                            autoFocus
+                            type="password"
+                            className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
+                            placeholder="New password (min 6 chars)"
+                            value={newPassword}
+                            onChange={e => setNewPassword(e.target.value)}
+                            onKeyDown={e => e.key === 'Enter' && handleSavePassword()}
+                          />
+                          <div className="flex gap-2">
+                            <button onClick={handleSavePassword} disabled={saving} className="flex-1 py-1.5 bg-primary-600 text-white rounded-md text-xs font-medium">
+                              {saving ? 'Saving...' : 'Change'}
+                            </button>
+                            <button onClick={() => setEditingPassword(false)} className="flex-1 py-1.5 bg-gray-100 text-gray-700 rounded-md text-xs">Cancel</button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => { setEditingPassword(true); setEditingName(false); setNewPassword('') }}
+                          className="w-full flex items-center gap-2 py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
+                        >
+                          <KeyRound className="h-4 w-4 text-gray-400" suppressHydrationWarning /> Change Password
+                        </button>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Footer */}
+                  {/* Sign Out */}
                   <div className="px-4 pb-4">
                     <button
                       onClick={handleLogout}

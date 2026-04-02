@@ -16,6 +16,16 @@ export class AuthService {
     localStorage.removeItem('isAuthenticated')
   }
 
+  async updateProfile(data: { full_name: string }): Promise<User> {
+    const updated = await api.put<User>('/auth/me/', data)
+    localStorage.setItem('user', JSON.stringify(updated))
+    return updated
+  }
+
+  async changePassword(newPassword: string): Promise<void> {
+    await api.post('/auth/me/change-password/', { new_password: newPassword })
+  }
+
   async getCurrentUser(): Promise<User | null> {
     try {
       const data = await api.get<User>('/auth/me/')

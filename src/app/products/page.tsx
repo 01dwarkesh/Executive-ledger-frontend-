@@ -73,7 +73,8 @@ export default function ProductsPage() {
     if (!confirm(`Deactivate "${name}"?`)) return
     try {
       await productsService.deactivateProduct(productId)
-      fetchProducts()
+      // Backend sirf active products return karta hai, isliye locally update karo
+      setProducts(prev => prev.map(p => p.id === productId ? { ...p, is_active: false } : p))
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to deactivate')
     }
@@ -98,7 +99,7 @@ export default function ProductsPage() {
     if (!confirm(`Reactivate "${name}"?`)) return
     try {
       await productsService.reactivateProduct(productId)
-      fetchProducts()
+      setProducts(prev => prev.map(p => p.id === productId ? { ...p, is_active: true } : p))
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to reactivate')
     }
