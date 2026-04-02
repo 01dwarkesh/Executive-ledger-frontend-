@@ -155,8 +155,8 @@ export default function QuoteDetailPage() {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
     } catch (err) {
-      console.error('PDF download error:', err)
-      alert(err instanceof Error ? err.message : 'Failed to download PDF')
+      // Backend PDF generation unavailable — fallback to browser print
+      window.print()
     }
   }
 
