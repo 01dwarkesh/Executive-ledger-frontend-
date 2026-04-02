@@ -1,13 +1,33 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { LayoutDashboard, Users, FileText, Package, ClipboardList, Lock, LogOut } from 'lucide-react'
+
+function getStoredRole(): string {
+  try {
+    const userStr = localStorage.getItem('user')
+    if (!userStr) return ''
+    return JSON.parse(userStr)?.role || ''
+  } catch { return '' }
+}
 
 export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const { user, logout } = useAuth()
+  // localStorage se seedha role lo — async useAuth ka wait nahi
+  const [role, setRole] = useState<string>('')
+
+  useEffect(() => {
+    setRole(getStoredRole())
+  }, [])
+
+  // jab useAuth se user aaye tab bhi update karo
+  useEffect(() => {
+    if (user?.role) setRole(user.role)
+  }, [user?.role])
 
   const adminMenuItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -25,7 +45,7 @@ export default function Sidebar() {
     { name: 'Products', href: '/products', icon: Package },
   ]
 
-  const menuItems = user?.role === 'admin' ? adminMenuItems : salesMenuItems
+  const menuItems = role === 'admin' ? adminMenuItems : salesMenuItems
 
   const handleLogout = async () => {
     await logout()
@@ -35,9 +55,15 @@ export default function Sidebar() {
   const isActive = (href: string) =>
     pathname === href || (href !== '/dashboard' && pathname.startsWith(href))
 
+  const displayUser = user || (() => {
+    try {
+      const s = localStorage.getItem('user')
+      return s ? JSON.parse(s) : null
+    } catch { return null }
+  })()
+
   return (
     <div className="w-64 bg-primary-50 border-r border-gray-200 h-screen flex flex-col">
-      {/* Logo */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center space-x-3">
           <div className="h-10 w-10 bg-primary-600 rounded-lg flex items-center justify-center">
@@ -45,13 +71,12 @@ export default function Sidebar() {
           </div>
           <div>
             <h1 className="text-lg font-bold text-gray-900">Executive Ledger</h1>
-            <p className="text-xs text-gray-500 capitalize" suppressHydrationWarning>{user?.role || 'Loading...'}</p>
+            <p className="text-xs text-gray-500 capitalize" suppressHydrationWarning>{role || 'Loading...'}</p>
           </div>
         </div>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 px-4 py-4" suppressHydrationWarning>
+      <nav className="flex-1 px-4 py-4">
         <div className="space-y-1">
           {menuItems.map((item) => (
             <button
@@ -67,16 +92,15 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      {/* User info + logout */}
       <div className="px-4 pb-6 border-t border-gray-200 pt-4">
-        {user && (
-          <div className="mb-3 px-3 py-2 bg-white rounded-lg">
-            <p className="text-sm font-medium text-gray-900 truncate">{user.full_name}</p>
-            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+        {displayUser && (
+          <div className="mb-3 px-3 py-2 bg-white rounded-lg" suppressHydrationWarning>
+            <p className="text-sm font-medium text-gray-900 truncate">{displayUser.full_name}</p>
+            <p className="text-xs text-gray-500 truncate">{displayUser.email}</p>
             <span className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full font-medium ${
-              user.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'
+              role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'
             }`}>
-              {user.role}
+              {role}
             </span>
           </div>
         )}
