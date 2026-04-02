@@ -11,7 +11,7 @@ export class QuotesService {
   }
 
   async getQuote(quoteId: string): Promise<Quote> {
-    return api.get<Quote>(`/quotes/${quoteId}`)
+    return api.get<Quote>(`/quotes/${quoteId}/`)
   }
 
   async createQuote(quoteData: QuoteCreate): Promise<Quote> {
@@ -19,27 +19,27 @@ export class QuotesService {
   }
 
   async updateQuote(quoteId: string, quoteData: QuoteUpdate): Promise<Quote> {
-    return api.put<Quote>(`/quotes/${quoteId}`, quoteData)
+    return api.put<Quote>(`/quotes/${quoteId}/`, quoteData)
   }
 
   async deleteQuote(quoteId: string): Promise<void> {
-    await api.delete(`/quotes/${quoteId}`)
+    await api.delete(`/quotes/${quoteId}/`)
   }
 
   async createNewVersion(quoteId: string): Promise<Quote> {
-    return api.post<Quote>(`/quotes/${quoteId}/new-version`)
+    return api.post<Quote>(`/quotes/${quoteId}/new-version/`)
   }
 
   async getQuoteVersions(quoteId: string): Promise<QuoteListOut[]> {
-    return api.get<QuoteListOut[]>(`/quotes/${quoteId}/versions`)
+    return api.get<QuoteListOut[]>(`/quotes/${quoteId}/versions/`)
   }
 
   async sendQuote(quoteId: string, emailData?: SendQuoteRequest): Promise<void> {
-    await api.post(`/quotes/${quoteId}/send-email`, emailData || {})
+    await api.post(`/quotes/${quoteId}/send-email/`, emailData || {})
   }
 
   async getQuoteActivity(quoteId: string): Promise<ActivityLog[]> {
-    return api.get<ActivityLog[]>(`/quotes/${quoteId}/activity`)
+    return api.get<ActivityLog[]>(`/quotes/${quoteId}/activity/`)
   }
 
   async downloadPDF(quoteId: string): Promise<Blob> {
@@ -65,15 +65,15 @@ export class QuotesService {
   }
 
   async updateItem(quoteId: string, itemId: string, item: QuoteItemUpdate): Promise<QuoteItem> {
-    return api.put<QuoteItem>(`/quotes/${quoteId}/items/${itemId}`, item)
+    return api.put<QuoteItem>(`/quotes/${quoteId}/items/${itemId}/`, item)
   }
 
   async deleteItem(quoteId: string, itemId: string): Promise<void> {
-    await api.delete(`/quotes/${quoteId}/items/${itemId}`)
+    await api.delete(`/quotes/${quoteId}/items/${itemId}/`)
   }
 
   async getItemsSummary(quoteId: string): Promise<QuoteItemSummary> {
-    return api.get<QuoteItemSummary>(`/quotes/${quoteId}/items/summary`)
+    return api.get<QuoteItemSummary>(`/quotes/${quoteId}/items/summary/`)
   }
 
   async uploadLogo(quoteId: string, itemId: string, file: File): Promise<any> {

@@ -3,7 +3,7 @@ import { ActivityLog } from '@/types'
 
 export class ActivityService {
   async getQuoteActivity(quoteId: string): Promise<ActivityLog[]> {
-    return api.get<ActivityLog[]>(`/quotes/${quoteId}/activity`)
+    return api.get<ActivityLog[]>(`/quotes/${quoteId}/activity/`)
   }
 }
 

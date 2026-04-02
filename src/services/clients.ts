@@ -9,7 +9,7 @@ export class ClientsService {
   }
 
   async getClient(clientId: string): Promise<Client> {
-    return api.get<Client>(`/clients/${clientId}`)
+    return api.get<Client>(`/clients/${clientId}/`)
   }
 
   async createClient(clientData: ClientCreate): Promise<Client> {
@@ -17,15 +17,15 @@ export class ClientsService {
   }
 
   async updateClient(clientId: string, clientData: ClientUpdate): Promise<Client> {
-    return api.put<Client>(`/clients/${clientId}`, clientData)
+    return api.put<Client>(`/clients/${clientId}/`, clientData)
   }
 
   async deleteClient(clientId: string): Promise<void> {
-    await api.delete(`/clients/${clientId}`)
+    await api.delete(`/clients/${clientId}/`)
   }
 
   async getClientStats(): Promise<any> {
-    return api.get('/clients/stats/summary')
+    return api.get('/clients/stats/summary/')
   }
 }
 

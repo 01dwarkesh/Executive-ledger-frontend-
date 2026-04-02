@@ -3,7 +3,7 @@ import { LoginRequest, TokenOut, User, UserCreate, UserUpdate, UserPasswordReset
 
 export class AuthService {
   async login(credentials: LoginRequest): Promise<TokenOut> {
-    const data = await api.post<TokenOut>('/auth/login', credentials)
+    const data = await api.post<TokenOut>('/auth/login/', credentials)
     localStorage.setItem('authToken', data.access_token)
     localStorage.setItem('user', JSON.stringify(data.user))
     localStorage.setItem('isAuthenticated', 'true')
@@ -18,7 +18,7 @@ export class AuthService {
 
   async getCurrentUser(): Promise<User | null> {
     try {
-      const data = await api.get<User>('/auth/me')
+      const data = await api.get<User>('/auth/me/')
       localStorage.setItem('user', JSON.stringify(data))
       return data
     } catch (err: any) {
@@ -43,37 +43,37 @@ export class AuthService {
   }
 
   async register(userData: UserCreate): Promise<User> {
-    return api.post<User>('/auth/register', userData)
+    return api.post<User>('/auth/register/', userData)
   }
 
   async getUsers(): Promise<User[]> {
-    return api.get<User[]>('/auth/users')
+    return api.get<User[]>('/auth/users/')
   }
 
   async createUser(userData: UserCreate): Promise<User> {
-    return api.post<User>('/auth/users', userData)
+    return api.post<User>('/auth/users/', userData)
   }
 
   async getUser(userId: string): Promise<User> {
-    return api.get<User>(`/auth/users/${userId}`)
+    return api.get<User>(`/auth/users/${userId}/`)
   }
 
   async updateUser(userId: string, userData: UserUpdate): Promise<User> {
-    const data = await api.put<User>(`/auth/users/${userId}`, userData)
+    const data = await api.put<User>(`/auth/users/${userId}/`, userData)
     localStorage.setItem('user', JSON.stringify(data))
     return data
   }
 
   async resetPassword(userId: string, newPassword: string): Promise<void> {
-    await api.post(`/auth/users/${userId}/reset-password`, { new_password: newPassword })
+    await api.post(`/auth/users/${userId}/reset-password/`, { new_password: newPassword })
   }
 
   async deactivateUser(userId: string): Promise<void> {
-    await api.post(`/auth/users/${userId}/deactivate`)
+    await api.post(`/auth/users/${userId}/deactivate/`)
   }
 
   async reactivateUser(userId: string): Promise<User> {
-    return api.post<User>(`/auth/users/${userId}/reactivate`)
+    return api.post<User>(`/auth/users/${userId}/reactivate/`)
   }
 }
 

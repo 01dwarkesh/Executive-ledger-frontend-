@@ -11,15 +11,15 @@ export class ProductsService {
   }
 
   async updateProduct(productId: string, data: Partial<ProductCreate> & { is_active?: boolean }): Promise<Product> {
-    return api.put<Product>(`/products/${productId}`, data)
+    return api.put<Product>(`/products/${productId}/`, data)
   }
 
   async deactivateProduct(productId: string): Promise<void> {
-    await api.put(`/products/${productId}`, { is_active: false })
+    await api.put(`/products/${productId}/`, { is_active: false })
   }
 
   async reactivateProduct(productId: string): Promise<void> {
-    await api.put(`/products/${productId}`, { is_active: true })
+    await api.put(`/products/${productId}/`, { is_active: true })
   }
 }
 
