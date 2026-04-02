@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { LayoutDashboard, Users, FileText, Package, ClipboardList, Lock, LogOut } from 'lucide-react'
@@ -9,9 +8,6 @@ export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const { user, logout } = useAuth()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => setMounted(true), [])
 
   const adminMenuItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -29,9 +25,7 @@ export default function Sidebar() {
     { name: 'Products', href: '/products', icon: Package },
   ]
 
-  const menuItems = mounted
-    ? (user?.role === 'admin' ? adminMenuItems : salesMenuItems)
-    : adminMenuItems
+  const menuItems = user?.role === 'admin' ? adminMenuItems : salesMenuItems
 
   const handleLogout = async () => {
     await logout()
@@ -75,7 +69,7 @@ export default function Sidebar() {
 
       {/* User info + logout */}
       <div className="px-4 pb-6 border-t border-gray-200 pt-4">
-        {mounted && user && (
+        {user && (
           <div className="mb-3 px-3 py-2 bg-white rounded-lg">
             <p className="text-sm font-medium text-gray-900 truncate">{user.full_name}</p>
             <p className="text-xs text-gray-500 truncate">{user.email}</p>
