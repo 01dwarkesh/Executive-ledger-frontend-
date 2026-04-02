@@ -36,7 +36,7 @@ export default function QuoteBuilderPage() {
   ])
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated')
+    const isAuthenticated = localStorage.getItem('authToken')
     if (!isAuthenticated) {
       router.push('/login')
     }

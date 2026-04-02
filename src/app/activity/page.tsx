@@ -57,7 +57,7 @@ export default function ActivityPage() {
   const [filterEvent, setFilterEvent] = useState('')
 
   useEffect(() => {
-    if (!localStorage.getItem('isAuthenticated')) { router.push('/login'); return }
+    if (!localStorage.getItem('authToken')) { router.push('/login'); return }
     fetchAllActivity()
   }, [router])
 

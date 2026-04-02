@@ -7,7 +7,7 @@ export default function HomePage() {
   const router = useRouter()
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated')
+    const isAuthenticated = localStorage.getItem('authToken')
     if (isAuthenticated) {
       router.push('/dashboard')
     } else {

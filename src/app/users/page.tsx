@@ -23,7 +23,7 @@ export default function UsersPage() {
   const [form, setForm] = useState<UserCreate>({ email: '', password: '', full_name: '', role: 'sales' })
 
   useEffect(() => {
-    if (!localStorage.getItem('isAuthenticated')) { router.push('/login'); return }
+    if (!localStorage.getItem('authToken')) { router.push('/login'); return }
     // Redirect non-admins
     if (currentUser && currentUser.role !== 'admin') { router.push('/dashboard'); return }
     fetchUsers()

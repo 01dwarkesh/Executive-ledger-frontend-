@@ -25,7 +25,7 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!localStorage.getItem('isAuthenticated')) {
+    if (!localStorage.getItem('authToken')) {
       router.push('/login')
       return
     }

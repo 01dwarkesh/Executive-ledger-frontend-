@@ -38,7 +38,7 @@ export default function ProductsPage() {
   const [editForm, setEditForm] = useState<ProductCreate>({ name: '', category: '', description: '', placeholder_image_url: '' })
 
   useEffect(() => {
-    if (!localStorage.getItem('isAuthenticated')) { router.push('/login'); return }
+    if (!localStorage.getItem('authToken')) { router.push('/login'); return }
     fetchProducts()
   }, [router])
 

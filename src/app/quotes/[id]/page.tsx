@@ -58,7 +58,7 @@ export default function QuoteDetailPage({ params }: { params: Promise<{ id: stri
   const [linkCopied, setLinkCopied] = useState(false)
 
   useEffect(() => {
-    if (!localStorage.getItem('isAuthenticated')) { router.push('/login'); return }
+    if (!localStorage.getItem('authToken')) { router.push('/login'); return }
     fetchQuote()
     productsService.getProducts().then(setProducts).catch(() => {})
   }, [id])

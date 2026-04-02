@@ -20,7 +20,7 @@ export default function ClientsPage() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    if (!localStorage.getItem('isAuthenticated')) { router.push('/login'); return }
+    if (!localStorage.getItem('authToken')) { router.push('/login'); return }
     fetchClients()
   }, [router])
 

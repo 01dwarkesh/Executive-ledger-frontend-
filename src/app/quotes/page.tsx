@@ -32,7 +32,7 @@ export default function QuotesPage() {
   const [creating, setCreating] = useState(false)
 
   useEffect(() => {
-    if (!localStorage.getItem('isAuthenticated')) { router.push('/login'); return }
+    if (!localStorage.getItem('authToken')) { router.push('/login'); return }
     fetchQuotes()
     clientsService.getClients(0, 200).then(setClients).catch(() => {})
   }, [router])
