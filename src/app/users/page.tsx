@@ -140,7 +140,7 @@ export default function UsersPage() {
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm text-gray-500">{activeCount} active users</span>
             <button className="btn-primary" onClick={openCreate}>
-              <Plus className="inline mr-2 h-4 w-4" /> Add User
+              <Plus className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Add User
             </button>
           </div>
 

@@ -60,8 +60,8 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex space-x-4 mb-6">
-              <button className="btn-secondary"><Search className="inline mr-2 h-4 w-4" /> Filter</button>
-              <button className="btn-primary" onClick={() => router.push('/quotes')}><Plus className="inline mr-2 h-4 w-4" /> New Quote</button>
+              <button className="btn-secondary"><Search className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Filter</button>
+              <button className="btn-primary" onClick={() => router.push('/quotes')}><Plus className="inline mr-2 h-4 w-4" suppressHydrationWarning /> New Quote</button>
             </div>
 
             {error && (

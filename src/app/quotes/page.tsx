@@ -111,7 +111,7 @@ export default function QuotesPage() {
               />
               <button className="btn-secondary" onClick={applyFilters}>Apply</button>
             </div>
-            <button className="btn-primary" onClick={() => setShowNewModal(true)}><Plus className="inline mr-2 h-4 w-4" /> New Quote</button>
+            <button className="btn-primary" onClick={() => setShowNewModal(true)}><Plus className="inline mr-2 h-4 w-4" suppressHydrationWarning /> New Quote</button>
           </div>
 
           {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
@@ -153,8 +153,8 @@ export default function QuotesPage() {
                         {new Date(quote.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={e => e.stopPropagation()}>
-                        <button className="text-primary-600 hover:text-primary-900 mr-3" onClick={() => router.push(`/quotes/${quote.id}`)}><Eye className="inline h-4 w-4" /> View</button>
-                        <button className="text-red-600 hover:text-red-900" onClick={e => handleDelete(e, quote.id)}><Trash2 className="inline h-4 w-4" /></button>
+                        <button className="text-primary-600 hover:text-primary-900 mr-3" onClick={() => router.push(`/quotes/${quote.id}`)}><Eye className="inline h-4 w-4" suppressHydrationWarning /> View</button>
+                        <button className="text-red-600 hover:text-red-900" onClick={e => handleDelete(e, quote.id)}><Trash2 className="inline h-4 w-4" suppressHydrationWarning /></button>
                       </td>
                     </tr>
                   ))}

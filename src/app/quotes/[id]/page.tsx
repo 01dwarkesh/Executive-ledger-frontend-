@@ -239,10 +239,10 @@ export default function QuoteDetailPage({ params }: { params: Promise<{ id: stri
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button className="btn-secondary" onClick={handleDownloadPDF}><Download className="inline mr-2 h-4 w-4" /> Download PDF</button>
-              <button className="btn-secondary" onClick={handleNewVersion}><RefreshCw className="inline mr-2 h-4 w-4" /> New Version</button>
-              <button className="btn-secondary" onClick={() => setShowPublicLink(true)}><Link2 className="inline mr-2 h-4 w-4" /> Public Link</button>
-              <button className="btn-primary" onClick={() => setShowSendModal(true)}><Mail className="inline mr-2 h-4 w-4" /> Send to Client</button>
+              <button className="btn-secondary" onClick={handleDownloadPDF}><Download className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Download PDF</button>
+              <button className="btn-secondary" onClick={handleNewVersion}><RefreshCw className="inline mr-2 h-4 w-4" suppressHydrationWarning /> New Version</button>
+              <button className="btn-secondary" onClick={() => setShowPublicLink(true)}><Link2 className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Public Link</button>
+              <button className="btn-primary" onClick={() => setShowSendModal(true)}><Mail className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Send to Client</button>
             </div>
           </div>
 
@@ -256,7 +256,7 @@ export default function QuoteDetailPage({ params }: { params: Promise<{ id: stri
                     className="btn-primary text-sm"
                     onClick={() => { setItemForm(EMPTY_ITEM); setShowAddItem(true) }}
                   >
-                    <Plus className="inline mr-1 h-4 w-4" /> Add Item
+                    <Plus className="inline mr-1 h-4 w-4" suppressHydrationWarning /> Add Item
                   </button>
                 </div>
 
@@ -309,7 +309,7 @@ export default function QuoteDetailPage({ params }: { params: Promise<{ id: stri
                               className="text-red-400 hover:text-red-600"
                               onClick={() => handleDeleteItem(item.id)}
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="h-4 w-4" suppressHydrationWarning />
                             </button>
                           </td>
                         </tr>
@@ -528,7 +528,7 @@ export default function QuoteDetailPage({ params }: { params: Promise<{ id: stri
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900"><Link2 className="inline mr-2 h-5 w-5" /> Public Quote Link</h2>
+              <h2 className="text-lg font-semibold text-gray-900"><Link2 className="inline mr-2 h-5 w-5" suppressHydrationWarning /> Public Quote Link</h2>
               <button onClick={() => setShowPublicLink(false)} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
             </div>
             <div className="p-6 space-y-4">
@@ -568,7 +568,7 @@ export default function QuoteDetailPage({ params }: { params: Promise<{ id: stri
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900"><Mail className="inline mr-2 h-5 w-5" /> Send Quote to Client</h2>
+              <h2 className="text-lg font-semibold text-gray-900"><Mail className="inline mr-2 h-5 w-5" suppressHydrationWarning /> Send Quote to Client</h2>
               <button onClick={() => setShowSendModal(false)} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
             </div>
             <form onSubmit={handleSendEmail} className="p-6 space-y-4">

@@ -66,7 +66,7 @@ export default function Sidebar() {
               className={`sidebar-item w-full text-left ${isActive(item.href) ? 'active' : ''}`}
               suppressHydrationWarning
             >
-              <item.icon className="mr-3 h-5 w-5" />
+              <item.icon className="mr-3 h-5 w-5" suppressHydrationWarning />
               {item.name}
             </button>
           ))}
@@ -90,7 +90,7 @@ export default function Sidebar() {
           onClick={handleLogout}
           className="sidebar-item w-full text-left text-red-600 hover:bg-red-50"
         >
-          <LogOut className="mr-3 h-5 w-5" />
+          <LogOut className="mr-3 h-5 w-5" suppressHydrationWarning />
           Sign Out
         </button>
       </div>

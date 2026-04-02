@@ -136,7 +136,7 @@ export default function ActivityPage() {
                   <div key={evt} className="bg-white rounded-lg shadow p-4">
                     <div className="flex items-center gap-2">
                       <div className={`h-8 w-8 rounded-full flex items-center justify-center ${EVENT_COLORS[evt] || 'bg-gray-100'}`}>
-                        <Icon className="h-4 w-4" />
+                        <Icon className="h-4 w-4" suppressHydrationWarning />
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-gray-900">{count}</p>
@@ -162,7 +162,7 @@ export default function ActivityPage() {
               ))}
             </select>
             <span className="text-sm text-gray-500">{filtered.length} events</span>
-            <button onClick={fetchAllActivity} className="btn-secondary text-sm ml-auto"><RefreshCw className="inline mr-1 h-4 w-4" /> Refresh</button>
+            <button onClick={fetchAllActivity} className="btn-secondary text-sm ml-auto"><RefreshCw className="inline mr-1 h-4 w-4" suppressHydrationWarning /> Refresh</button>
           </div>
 
           {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
@@ -183,7 +183,7 @@ export default function ActivityPage() {
                   >
                     {/* Icon */}
                     <div className={`flex-shrink-0 h-9 w-9 rounded-full flex items-center justify-center ${EVENT_COLORS[activity.event_type] || 'bg-gray-100 text-gray-600'}`}>
-                      {(() => { const Icon = EVENT_ICON_MAP[activity.event_type] || Pin; return <Icon className="h-4 w-4" /> })()}
+                      {(() => { const Icon = EVENT_ICON_MAP[activity.event_type] || Pin; return <Icon className="h-4 w-4" suppressHydrationWarning /> })()}
                     </div>
 
                     {/* Content */}

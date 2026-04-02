@@ -102,10 +102,10 @@ export default function QuoteBuilderPage() {
                   <h2 className="text-lg font-semibold text-gray-900">Line-Item Specification</h2>
                   <div className="flex space-x-4 mt-4">
                     <button className="btn-secondary">
-                      <Upload className="inline mr-2 h-4 w-4" /> Import CSV
+                      <Upload className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Import CSV
                     </button>
                     <button className="btn-primary">
-                      <CheckCircle className="inline mr-2 h-4 w-4" /> Finalize Quote
+                      <CheckCircle className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Finalize Quote
                     </button>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ export default function QuoteBuilderPage() {
                   </div>
 
                   <button className="w-full btn-primary mt-4">
-                    <Download className="inline mr-2 h-4 w-4" /> Generate & Preview PDF
+                    <Download className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Generate & Preview PDF
                   </button>
                 </div>
               </div>

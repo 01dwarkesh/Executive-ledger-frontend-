@@ -104,7 +104,7 @@ export default function ClientsPage() {
               />
               <button type="submit" className="btn-secondary">Search</button>
             </form>
-            <button className="btn-primary" onClick={openCreate}><Plus className="inline mr-2 h-4 w-4" /> Add Client</button>
+            <button className="btn-primary" onClick={openCreate}><Plus className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Add Client</button>
           </div>
 
           {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}

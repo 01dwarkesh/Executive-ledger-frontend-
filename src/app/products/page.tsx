@@ -158,7 +158,7 @@ export default function ProductsPage() {
                   </button>
                 )}
                 <button className="btn-primary" onClick={() => setShowModal(true)}>
-                  <Plus className="inline mr-2 h-4 w-4" /> Add Product
+                  <Plus className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Add Product
                 </button>
               </div>
             )}
@@ -192,7 +192,7 @@ export default function ProductsPage() {
               <p className="text-gray-500 text-sm mb-6">Add sample products to get started quickly.</p>
               {isAdmin && (
                 <button className="btn-primary" onClick={handleSeedAll} disabled={seedingAll}>
-                  {seedingAll ? 'Adding...' : <><Package className="inline mr-2 h-4 w-4" /> Add 10 Sample Products</>}
+                  {seedingAll ? 'Adding...' : <><Package className="inline mr-2 h-4 w-4" suppressHydrationWarning /> Add 10 Sample Products</>}
                 </button>
               )}
             </div>
